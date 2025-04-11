@@ -1,6 +1,5 @@
 import java.awt.*;
 import java.awt.image.BufferedImage;
-import java.awt.Color;
 
 public class QuadtreeNode {
     /* Attributes  */
@@ -41,8 +40,8 @@ public class QuadtreeNode {
         int pixelCount = 0;
 
         // Iterate box of pixels in the image to sum RGB values
-        for (int y = Math.max(area.y,0); y < Math.min(area.y + area.height, img.getHeight()); y++){
-            for (int x = Math.max(area.x, 0); x < Math.min(area.y + area.width, img.getWidth()); x++){
+        for (int y = area.y; y < area.y + area.height; y++){
+            for (int x = area.x; x < area.x + area.width; x++){
                 int RGB = img.getRGB(x, y);
                 Color color = new Color(RGB);
                 red += color.getRed();
@@ -70,21 +69,24 @@ public class QuadtreeNode {
         this.children = new QuadtreeNode[4];
         int halfWidth = area.width / 2;
         int halfHeight = area.height / 2;
+        int remainingWidth = area.width - halfWidth;
+        int remainingHeight = area.height - halfHeight;
 
+        children = new QuadtreeNode[4];
         // Top-Left
-        Rectangle topLeft = new Rectangle(area.x, area.y, halfWidth, halfHeight);
+        Rectangle topLeft = new Rectangle(area.x, area.y, remainingWidth, remainingHeight);
         children[0] = new QuadtreeNode(topLeft, QuadtreeNode.calculateAvgColor(img, topLeft));
 
         // Top-Right
-        Rectangle topRight = new Rectangle(area.x + halfWidth, area.y, halfWidth, halfHeight);
+        Rectangle topRight = new Rectangle(area.x + halfWidth, area.y, remainingWidth, remainingHeight);
         children[1] = new QuadtreeNode(topRight, QuadtreeNode.calculateAvgColor(img, topRight));
 
         // Bottom-Left
-        Rectangle bottomLeft = new Rectangle(area.x, area.y + halfHeight, halfWidth, halfHeight);
+        Rectangle bottomLeft = new Rectangle(area.x, area.y + halfHeight, remainingWidth, remainingHeight);
         children[2] = new QuadtreeNode(bottomLeft, QuadtreeNode.calculateAvgColor(img, bottomLeft));
 
         // Bottom-Right
-        Rectangle bottomRight = new Rectangle(area.x + halfWidth, area.y + halfHeight, halfWidth, halfHeight);
+        Rectangle bottomRight = new Rectangle(area.x + halfWidth, area.y + halfHeight, remainingWidth, remainingHeight);
         children[3] = new QuadtreeNode(bottomRight, QuadtreeNode.calculateAvgColor(img, bottomRight));
     }
 }

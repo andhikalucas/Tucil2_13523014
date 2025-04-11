@@ -31,6 +31,7 @@ public class Main {
         /* 8-14. Output Image and Stats */
         long startTime = System.nanoTime();
         Quadtree quadtree = new Quadtree(method, threshold, minBlockSize, image);
+        quadtree.buildQuadtree();
         BufferedImage compressedImage = quadtree.reconstruct();
         long endTime = System.nanoTime();
 

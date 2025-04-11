@@ -41,9 +41,12 @@ public class Quadtree {
             return 1;
         }
         int maxDepth = 0;
-        for (QuadtreeNode child : node.getChildren()){
+        if (node.getChildren() != null){
+            for (QuadtreeNode child : node.getChildren()){
             maxDepth = Math.max(maxDepth, getDepth(child));
+            }
         }
+        
         return maxDepth + 1;
     }
 
@@ -52,8 +55,10 @@ public class Quadtree {
             return 0;
         }
         int count = 1;
-        for (QuadtreeNode child : node.getChildren()){
-            count += getNodeCount(child);
+        if (!node.isLeaf() && node.getChildren() != null){
+            for (QuadtreeNode child : node.getChildren()){
+                if (child != null) count += getNodeCount(child);
+            }
         }
         return count;
     }
@@ -74,7 +79,7 @@ public class Quadtree {
     /* Determines whether an image pixel should be split further or not */
     public boolean shouldSplit(BufferedImage img, QuadtreeNode node){
         Rectangle area = node.getArea();
-        int childBlockArea = (area.width/2) * (area.height/2);
+        int childBlockArea = area.width * area.height;
 
         // Condition 1: Stop if child block would be smaller than minBlockSize
         if (childBlockArea < minBlockSize){

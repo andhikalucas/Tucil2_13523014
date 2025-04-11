@@ -3,6 +3,7 @@ import java.io.File;
 import java.util.Scanner;
 import javax.imageio.ImageIO;
 import java.util.AbstractMap.SimpleEntry;
+import java.text.DecimalFormat;
 
 public class IOHandler {
     /* Attributes */
@@ -134,7 +135,7 @@ public class IOHandler {
 
     /* 8-13. Output exec time, before and after image size, compression percentage, tree depth and node count */
     public void outputStats(long startTime, long endTime, String inputPath, File outputFile, Quadtree quadtree) {
-        double executionTime = (endTime - startTime) / 1_000_000;
+        double executionTime = (endTime - startTime) / 1_000_000_000;
         long originalSize = new File(inputPath).length();
         long compressedSize = outputFile.length();
 
@@ -147,11 +148,12 @@ public class IOHandler {
         int depth = quadtree.getDepth(quadtree.getRoot());
         int nodeCount = quadtree.getNodeCount(quadtree.getRoot());
 
+        DecimalFormat df = new DecimalFormat("#.###");
         System.out.println("\nStatistik Kompresi Gambar");
         System.out.println("Waktu eksekusi: " + executionTime + " detik");
-        System.out.println("Ukuran gambar sebelum: " + originalSize + " bytes");
-        System.out.println("Ukuran gambar setelah: " + compressedSize + " bytes");
-        System.out.println("Persentase kompresi: " + compressionRatio + "%");
+        System.out.println("Ukuran gambar sebelum: " + originalSize + " Bytes (" + (originalSize / 1024) + " KB)");
+        System.out.println("Ukuran gambar setelah: " + compressedSize + " Bytes (" + (compressedSize / 1024) + " KB)");
+        System.out.println("Persentase kompresi: " + df.format(compressionRatio) + "%");
         System.out.println("Kedalaman pohon: " + depth);
         System.out.println("Banyak simpul pada pohon: " + nodeCount);
     }
