@@ -57,9 +57,9 @@ public class IOHandler {
         double topRange = 0;
         switch(method){
             case VARIANCE: 
-                System.out.println("Threshold Metode Variance: (100-1000)"); 
-                bottomRange = 100; 
-                topRange = 1000;
+                System.out.println("Threshold Metode Variance: (10-500)"); 
+                bottomRange = 10; 
+                topRange = 500;
                 break;
             case MAD: 
                 System.out.println("Threshold Metode MAD: (5-50)");
