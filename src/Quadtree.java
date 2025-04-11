@@ -79,10 +79,10 @@ public class Quadtree {
     /* Determines whether an image pixel should be split further or not */
     public boolean shouldSplit(BufferedImage img, QuadtreeNode node){
         Rectangle area = node.getArea();
-        int childBlockArea = area.width * area.height;
+        int childBlockArea = (area.width * area.height) / 4;
 
         // Condition 1: Stop if child block would be smaller than minBlockSize
-        if (childBlockArea < minBlockSize){
+        if (area.width < minBlockSize || area.height < minBlockSize || childBlockArea < minBlockSize){
             return false;
         }
 
